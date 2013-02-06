@@ -1,0 +1,32 @@
+#!/usr/bin/env python
+
+from jsontester.shell import Script
+
+from jsontester.request import JsonRequest,response_code_text
+
+script = Script()
+script.add_argument('-B','--browser',help='Browser for cookie stealing (firefox/chrome)')
+script.add_argument('urls',nargs='*',help='URLs to send GET request')
+args = script.parse_args()
+
+if args.browser and args.browser not in ['chrome','firefox']:
+    script.exit(1,'Invalid browser name')
+request = JsonRequest(browser=args.browser)
+
+for url in args.urls:
+    script.log.debug('Submitting GET request to %s' % url)
+
+    res = request.get(url)
+    res_text = response_code_text(res.status_code)
+    if res_text != 'OK':
+        script.error('RESPONSE CODE: %s' % res_text)
+        script.error('ERROR requesting JSON resource')
+        script.error(res.content)
+        continue
+
+    if args.debug:
+        script.error('RESPONSE CODE: %s' % res_text)
+
+    if res.content.strip():
+        script.message(res.content)
+
