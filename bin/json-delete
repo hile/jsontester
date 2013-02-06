@@ -3,10 +3,13 @@
 from jsontester.shell import Script
 from jsontester.request import JsonRequest,response_code_text
 
-script = Script()
+script = Script(description='Send a HTTP DELETE request to given URL as JSON')
 script.add_argument('-B','--browser',help='Browser for cookie stealing (firefox/chrome)')
 script.add_argument('urls',nargs='*',help='URLs to send DELETE request')
 args = script.parse_args()
+
+if not args.urls:
+    script.exit(1,'URLs to delete are required')
 
 if args.browser and args.browser not in ['chrome','firefox']:
     script.exit(1,'Invalid browser name')
