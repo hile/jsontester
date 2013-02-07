@@ -19,7 +19,7 @@ build:
 
 .PHONY: test
 test:
-	python -m unittest test
+	nosetests --with-coverage --with-xunit
 
 ifdef PREFIX
 install_modules: build
