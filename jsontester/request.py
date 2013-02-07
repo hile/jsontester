@@ -16,7 +16,11 @@ DEFAULT_HEADERS = {
     'delete': { 'Content-Type': JSON_MIME, },
 }
 
-class JsonRequest(object):
+class JSONRequestError(Exception):
+    def __str__(self):
+        return self.args[0]
+
+class JSONRequest(object):
     def __init__(self,browser='chrome'):
         self.log = Logger('request').default_stream
         self.authentication = None
@@ -28,9 +32,14 @@ class JsonRequest(object):
                 host = urllib.splithost(url.lstrip(string.ascii_letters+':'))[0]
                 if ':' in host:
                     host = host.split(':',1)[0]
-                cookies = get_host_cookies(self.browser,host)
+                try:
+                    cookies = get_host_cookies(self.browser,host)
+                except CookieError,emsg:
+                    raise JSONRequestError(str(emsg))
+
         if name not in DEFAULT_HEADERS:
             return extra_headers,cookies
+
         headers = DEFAULT_HEADERS[name].copy()
         headers.update(extra_headers)
         return headers,cookies

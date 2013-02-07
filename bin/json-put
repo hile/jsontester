@@ -3,20 +3,13 @@
 import sys,os
 from jsontester.shell import Script
 
-from jsontester.request import JsonRequest,response_code_text
+from jsontester.request import JSONRequest,JSONRequestError,response_code_text
 
 script = Script(description='Send a HTTP PUT request with data from file to given URL as JSON')
 script.add_argument('-D','--data-from',help='Data to send in PUT request')
-script.add_argument('-B','--browser',help='Browser for cookie stealing (firefox/chrome)')
-script.add_argument('urls',nargs='*',help='URLs to send PUT requests')
 args = script.parse_args()
 
-if not args.urls:
-    script.exit(1,'URLs for JSON PUT are required')
-
-if args.browser and args.browser not in ['chrome','firefox']:
-    script.exit(1,'Invalid browser name')
-request = JsonRequest(browser=args.browser)
+request = JSONRequest(browser=args.browser)
 
 if not args.data_from:
     script.exit(1,'PUT data to send is required argument')
@@ -41,7 +34,11 @@ else:
 
 script.log.debug('PUT %d bytes:\n%s' % (len(post_data),post_data))
 for url in args.urls:
-    res = request.put(url,data=post_data)
+    try:
+        res = request.put(url,data=post_data)
+    except JSONRequestError,emsg:
+        script.exit(1,emsg)
+
     res_text = response_code_text(res.status_code)
     if res_text != 'ACCEPTED':
         script.error('RESPONSE CODE: %s\n' % res_text)

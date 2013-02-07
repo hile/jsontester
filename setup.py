@@ -12,7 +12,7 @@ setup(
     keywords = 'Network JSON Request Test',
     url = 'http://tuohela.net/packages/jsontester',
     zip_safe = False,
-    install_requires = ['pysqlite','requests','nose',],
+    install_requires = ['requests','nose',],
     scripts = glob.glob('bin/*'),
     packages = ['jsontester'] + ['jsontester.%s'%s for s in find_packages('jsontester')],
     author = 'Ilkka Tuohela',

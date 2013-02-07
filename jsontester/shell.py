@@ -145,6 +145,9 @@ class Script(object):
             add_help=True,
             conflict_handler='resolve',
         )
+        self.parser.add_argument('-B','--browser',help='Browser for cookie stealing (firefox/chrome/chromium)')
+        self.parser.add_argument('urls',nargs='*',help='URLs to send GET request')
+
         if debug_flag:
             self.parser.add_argument('--debug',action='store_true',help='Show debug messages')
 
@@ -229,6 +232,11 @@ class Script(object):
             self.silent = True
         elif hasattr(args,'verbose') and getattr(args,'verbose'):
             self.logger.set_level('INFO')
+
+        if not args.urls:
+            self.exit(1,'URLs to get are required')
+        if args.browser and args.browser not in ['chrome','chromium','firefox']:
+            self.exit(1,'Invalid browser name')
 
         return args
 
