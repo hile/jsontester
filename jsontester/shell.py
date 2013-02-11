@@ -146,7 +146,7 @@ class Script(object):
             conflict_handler='resolve',
         )
         self.parser.add_argument('-B','--browser',help='Browser for cookie stealing (firefox/chrome/chromium)')
-        self.parser.add_argument('urls',nargs='*',help='URLs to send GET request')
+        self.parser.add_argument('urls',nargs='*',help='URLs for request')
 
         if debug_flag:
             self.parser.add_argument('--debug',action='store_true',help='Show debug messages')

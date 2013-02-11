@@ -5,7 +5,6 @@ from jsontester.request import JSONRequest,JSONRequestError,response_code_text
 
 script = Script(description='Send a HTTP DELETE request to given URL as JSON')
 script.add_argument('-B','--browser',help='Browser for cookie stealing (firefox/chrome)')
-script.add_argument('urls',nargs='*',help='URLs to send DELETE request')
 args = script.parse_args()
 
 request = JSONRequest(browser=args.browser)
