@@ -117,6 +117,28 @@ class ScriptThread(threading.Thread):
         p = subprocess.Popen(command,stdin=sys.stdin,stdout=sys.stdout,stderr=sys.stderr)
         return p.wait()
 
+class ScriptThreadManager(object):
+    def __init__(self,name,threads):
+        self.threads = threads
+
+    def run(self):
+        if len(self)==0:
+            return
+
+        total = len(self)
+        while len(self)>0:
+            active = threading.active_count()
+            if active > self.threads:
+                time.sleep(0.5)
+                continue
+            index = '%d/%d' % (total-len(self)+1,total)
+            t = self.get_entry_handler(index,self.pop(0))
+            t.start()
+        active = threading.active_count()
+        while active > 1:
+            time.sleep(0.5)
+            active = threading.active_count()
+
 class Script(object):
     """
     Class for common CLI tool script
