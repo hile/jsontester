@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 
-from jsontester.shell import Script
+import json
 
+from jsontester.shell import Script
 from jsontester.request import JSONRequest,JSONRequestError,response_code_text
 
 script = Script(description='Send a HTTP GET request to given URL as JSON')
+script.add_argument('-r','--raw',action='store_true',help='No output formatting')
+script.add_argument('-i','--indent',type=int,default=2,help='Result indent level')
 args = script.parse_args()
 
 request = JSONRequest(browser=args.browser)
@@ -21,12 +24,24 @@ for url in args.urls:
     if res_text != 'OK':
         script.error('RESPONSE CODE: %s' % res_text)
         script.error('ERROR requesting JSON resource')
-        script.error(res.content)
+        if args.raw:
+            script.error(res.content)
+        else:
+            try:
+                script.error(json.dumps(json.loads(res.content),indent=args.indent))
+            except ValueError:
+                script.error(res.content)
         continue
 
     if args.debug:
         script.error('RESPONSE CODE: %s' % res_text)
 
     if res.content.strip():
-        script.message(res.content)
+        if args.raw:
+            script.message(res.content)
+        else:
+            try:
+                script.message(json.dumps(json.loads(res.content),indent=args.indent))
+            except ValueError:
+                script.error(res.content)
 

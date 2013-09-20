@@ -1,46 +1,34 @@
 #!/usr/bin/env python
 
 import json
-import sys
-import os
-import argparse
 
 from jsontester.shell import Script
 from jsontester.request import JSONRequest,JSONRequestError,response_code_text
 
-script = Script(description='Send a HTTP POST request with data from file to given URL as JSON')
+script = Script(description='List only entries matching given JSON paths in result')
 script.add_argument('-r','--raw',action='store_true',help='No output formatting')
 script.add_argument('-i','--indent',type=int,default=2,help='Result indent level')
-script.add_argument('-D','--data-from',type=argparse.FileType('r'),help='Data to send in POST request')
+script.add_argument('matches',nargs='*',help='Dot separated match paths to show')
 args = script.parse_args()
 
 request = JSONRequest(browser=args.browser)
 
-if not args.data_from:
-    script.exit(1,'POST data to send is required argument')
+def match_record(record,matches):
+    results = []
+    return results
 
-elif args.data_from:
-    script.log.debug('Reading POST data from file')
-    try:
-        post_data = args.data_from.read()
-    except OSError,(ecode,emsg):
-        script.exit(1,'Error reading POST data from file %s: %s' % (args.data,emsg))
-
-else:
-    script.exit(1,'Could not parse POST data from anywhere')
-
-script.log.debug('POST %d bytes:\n%s' % (len(post_data),post_data))
 for url in args.urls:
+    script.log.debug('Submitting GET request to %s' % url)
 
     try:
-        res = request.post(url,data=post_data)
+        res = request.get(url)
     except JSONRequestError,emsg:
         script.exit(1,emsg)
 
     res_text = response_code_text(res.status_code)
-    if res_text != 'CREATED':
-        script.error('RESPONSE CODE: %s\n' % res_text)
-        script.message('ERROR adding JSON resource')
+    if res_text != 'OK':
+        script.error('RESPONSE CODE: %s' % res_text)
+        script.error('ERROR requesting JSON resource')
         if args.raw:
             script.error(res.content)
         else:
@@ -48,9 +36,12 @@ for url in args.urls:
                 script.error(json.dumps(json.loads(res.content),indent=args.indent))
             except ValueError:
                 script.error(res.content)
+        continue
 
-    else:
-        script.error('RESPONSE CODE: %s\n' % res_text)
+    if args.debug:
+        script.error('RESPONSE CODE: %s' % res_text)
+
+    if res.content.strip():
         if args.raw:
             script.message(res.content)
         else:
