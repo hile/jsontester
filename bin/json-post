@@ -12,6 +12,7 @@ script = Script(description='Send a HTTP POST request with data from file to giv
 script.add_argument('-r','--raw',action='store_true',help='No output formatting')
 script.add_argument('-i','--indent',type=int,default=2,help='Result indent level')
 script.add_argument('-D','--data-from',type=argparse.FileType('r'),help='Data to send in POST request')
+script.add_argument('urls', nargs='*', help='URLs to post')
 args = script.parse_args()
 
 request = JSONRequest(browser=args.browser)

@@ -29,6 +29,7 @@ script = Script(description='Send a HTTP GET request to given URL as JSON')
 script.add_argument('-r', '--raw', action='store_true', help='No output formatting')
 script.add_argument('-i', '--indent', type=int, default=2, help='Result indent level')
 script.add_argument('-e', '--element', help='Dict elements to print')
+script.add_argument('urls', nargs='*', help='URLs to get')
 args = script.parse_args()
 
 request = JSONRequest(browser=args.browser)
