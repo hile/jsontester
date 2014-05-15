@@ -12,15 +12,17 @@ setup(
     keywords = 'Network JSON Request Test',
     url = 'http://tuohela.net/packages/jsontester',
     zip_safe = False,
-    install_requires = ('requests>=1.2.3', 'nose', 'configobj'),
     scripts = glob.glob('bin/*'),
     packages = ['jsontester'] + ['jsontester.%s'%s for s in find_packages('jsontester')],
     author = 'Ilkka Tuohela',
     author_email = 'hile@iki.fi',
     description = 'Scripts to test JSON API requests from command line',
     long_description = README,
-    install_requires = [ 
-        'systematic>=4.0.4' 
-    ],
+    install_requires = (
+        'requests>=1.2.3', 
+        'nose', 
+        'configobj',
+        'systematic>=4.0.4',
+    ),
 )
 
