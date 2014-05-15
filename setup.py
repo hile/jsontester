@@ -19,5 +19,8 @@ setup(
     author_email = 'hile@iki.fi',
     description = 'Scripts to test JSON API requests from command line',
     long_description = README,
+    install_requires = [ 
+        'systematic>=4.0.4' 
+    ],
 )
 
