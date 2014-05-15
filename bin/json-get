@@ -32,7 +32,7 @@ script.add_argument('-e', '--element', help='Dict elements to print')
 script.add_argument('urls', nargs='*', help='URLs to get')
 args = script.parse_args()
 
-request = JSONRequest(browser=args.browser)
+request = JSONRequest(browser=args.browser, verify=args.insecure)
 
 if args.element:
     element_path = args.element.split('.')

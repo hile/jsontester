@@ -161,6 +161,7 @@ class Script(object):
         if debug_flag:
             self.parser.add_argument('--debug', action='store_true', help='Show debug messages')
 
+        self.parser.add_argument('--insecure', action='store_false', help='No HTTPS certificate validation')
         self.parser.add_argument('-B', '--browser',
             choices=('chrome','chromium','firefox'),
             help='Browser for cookie stealing'
