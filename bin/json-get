@@ -5,7 +5,7 @@ import json
 from jsontester.shell import Script
 from jsontester.request import JSONRequest, JSONRequestError, response_code_text
 
-def print_elements(data, parts):
+def print_elements(data, element_paths):
     def iterate_element(entry, parts):
         if not parts:
             print entry
@@ -22,8 +22,8 @@ def print_elements(data, parts):
                 if p in entry:
                     iterate_element(entry[p], parts[1:])
 
-    iterate_element(data, parts)
-
+    for parts in [x.split('.') for x in element_paths]:
+        iterate_element(data, parts)
 
 script = Script(description='Send a HTTP GET request to given URL as JSON')
 script.add_argument('-r', '--raw', action='store_true', help='No output formatting')
@@ -35,9 +35,9 @@ args = script.parse_args()
 request = JSONRequest(browser=args.browser, verify=args.insecure)
 
 if args.element:
-    element_path = args.element.split('.')
+    element_paths = args.element.split(',')
 else:
-    element_path = None
+    element_paths = None
 
 for url in args.urls:
     script.log.debug('Submitting GET request to %s' % url)
@@ -64,8 +64,8 @@ for url in args.urls:
         script.error('RESPONSE CODE: %s' % res_text)
 
     if res.content.strip():
-        if element_path:
-            print_elements(json.loads(res.content), element_path)
+        if element_paths:
+            print_elements(json.loads(res.content), element_paths)
         elif args.raw:
             script.message(res.content)
         else:
