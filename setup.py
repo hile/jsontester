@@ -3,7 +3,7 @@ import os
 import glob
 from setuptools import setup, find_packages
 
-VERSION='1.1'
+VERSION='1.1.1'
 
 setup(
     name = 'jsontester',

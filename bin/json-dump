@@ -14,4 +14,7 @@ args = script.parse_args()
 if args.indent == 0:
     args.indent = None
 
-script.message(json.dumps(json.loads(args.file.read()), indent=args.indent))
+try:
+    script.message(json.dumps(json.loads(args.file.read()), indent=args.indent))
+except ValueError, emsg:
+    script.exit(1, emsg)
