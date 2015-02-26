@@ -2,9 +2,10 @@
 Common abstraction class for sqlite databases
 """
 
-import os,sqlite3
+import os
+import sqlite3
 
-from jsontester.log import Logger,LoggerError
+from .log import Logger,LoggerError
 
 class SQLiteError(Exception):
     """

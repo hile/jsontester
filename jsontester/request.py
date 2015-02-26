@@ -10,8 +10,8 @@ import string
 from requests.adapters import HTTPAdapter
 from responsecodes import response_code_text
 
-from jsontester.log import Logger
-from jsontester.cookies import get_host_cookies, CookieError
+from .log import Logger
+from .cookies import get_host_cookies, CookieError
 
 JSON_MIME = 'application/json'
 DEFAULT_MAX_RETRIES = 3

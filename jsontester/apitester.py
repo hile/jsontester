@@ -2,7 +2,7 @@
 API testing tools
 """
 
-from jsontester.shell import ScriptThread
+from .shell import ScriptThread
 
 class JSONAPI(object):
     def __init__(self,url):

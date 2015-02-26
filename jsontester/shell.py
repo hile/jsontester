@@ -15,12 +15,7 @@ import unicodedata
 from subprocess import check_output, CalledProcessError, Popen, PIPE
 from setproctitle import setproctitle
 
-from systematic.log import Logger
-
-if sys.platform=='darwin':
-    CONFIG_PATH = os.path.expanduser('~/Library/Application Support/Systematic')
-else:
-    CONFIG_PATH = os.path.expanduser('~/.config/systematic')
+from .log import Logger
 
 # Values for TERM environment variable which support setting title
 TERM_TITLE_SUPPORTED = ( 'xterm', 'xterm-debian' )
