@@ -1,16 +1,15 @@
 
-import os
 import glob
 from setuptools import setup, find_packages
 
-VERSION='1.1.1'
+VERSION='1.1.2'
 
 setup(
     name = 'jsontester',
     version = VERSION,
     license = 'PSF',
     keywords = 'json request test browser',
-    url = 'http://tuohela.net/packages/jsontester',
+    url = 'https://github.com/hile/jsontester',
     author = 'Ilkka Tuohela',
     author_email = 'hile@iki.fi',
     description = 'Scripts to test JSON API requests from command line',
