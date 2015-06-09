@@ -15,7 +15,7 @@ script.add_argument('-D','--data-from',type=argparse.FileType('r'),help='Data to
 script.add_argument('urls', nargs='*', help='URLs to post')
 args = script.parse_args()
 
-request = JSONRequest(browser=args.browser, verify=args.insecure)
+request = JSONRequest(browser=args.browser, username=args.username, password=args.password, verify=args.insecure)
 
 if not args.data_from:
     script.exit(1,'POST data to send is required argument')

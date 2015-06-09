@@ -12,7 +12,7 @@ script.add_argument('urls', nargs='*', help='URLs to match')
 script.add_argument('matches',nargs='*',help='Dot separated match paths to show')
 args = script.parse_args()
 
-request = JSONRequest(browser=args.browser, verify=args.insecure)
+request = JSONRequest(browser=args.browser, username=args.username, password=args.password, verify=args.insecure)
 
 def match_record(record,matches):
     results = []

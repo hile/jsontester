@@ -17,36 +17,6 @@ from setproctitle import setproctitle
 
 from .log import Logger
 
-# Values for TERM environment variable which support setting title
-TERM_TITLE_SUPPORTED = ( 'xterm', 'xterm-debian' )
-
-
-def xterm_title(value, max_length=74, bypass_term_check=False):
-    """
-    Set title in xterm titlebar to given value, clip the title text to
-    max_length characters.
-    """
-    #if not os.isatty(1): return
-
-    TERM=os.getenv('TERM')
-    if not bypass_term_check and TERM not in TERM_TITLE_SUPPORTED:
-        return
-    sys.stderr.write('\033]2;'+value[:max_length]+'', )
-    sys.stderr.flush()
-
-
-def normalized(path, normalization='NFC'):
-    """
-    Return given path value as normalized unicode string on OS/X,
-    on other platform return the original string as unicode
-    """
-    if sys.platform != 'darwin':
-        return type(path)==unicode and path or unicode(path, 'utf-8')
-    if not isinstance(path, unicode):
-        path = unicode(path, 'utf-8')
-    return unicodedata.normalize(normalization, path)
-
-
 class ScriptError(Exception):
     pass
 
@@ -156,6 +126,8 @@ class Script(object):
         if debug_flag:
             self.parser.add_argument('--debug', action='store_true', help='Show debug messages')
 
+        self.parser.add_argument('--username', help='Basic auth username')
+        self.parser.add_argument('--password', help='Basic auth password')
         self.parser.add_argument('--insecure', action='store_false', help='No HTTPS certificate validation')
         self.parser.add_argument('-B', '--browser',
             choices=('chrome','chromium','firefox'),

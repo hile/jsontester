@@ -7,7 +7,7 @@ script = Script(description='Send a HTTP DELETE request to given URL as JSON')
 script.add_argument('urls', nargs='*', help='URLs to delete')
 args = script.parse_args()
 
-request = JSONRequest(browser=args.browser, verify=args.insecure)
+request = JSONRequest(browser=args.browser, username=args.username, password=args.password, verify=args.insecure)
 
 for url in args.urls:
     script.log.debug('Submitting DELETE request to %s' % url)

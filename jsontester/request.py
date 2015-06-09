@@ -8,6 +8,7 @@ import json
 import string
 
 from requests.adapters import HTTPAdapter
+from requests.auth import HTTPBasicAuth
 from responsecodes import response_code_text
 
 from .log import Logger
@@ -27,11 +28,15 @@ class JSONRequestError(Exception):
         return self.args[0]
 
 class JSONRequest(object):
-    def __init__(self, browser='chrome', retries=DEFAULT_MAX_RETRIES, verify=True):
+    def __init__(self, browser='chrome', retries=DEFAULT_MAX_RETRIES, username=None, password=None, verify=True):
         self.log = Logger('request').default_stream
         self.authentication = None
         self.browser = browser
         self.verify = verify
+        if username and password:
+            self.auth = HTTPBasicAuth(username, password)
+        else:
+            self.auth = None
 
         self.session = requests.Session()
         self.session.mount('http://', HTTPAdapter(max_retries=retries))
@@ -58,7 +63,7 @@ class JSONRequest(object):
     def get(self, url, cookies={}, headers={}):
         headers, cookies = self.__prepare_query__('get', url, headers, cookies)
         try:
-            res = requests.get(url, cookies=cookies, headers=headers, verify=self.verify)
+            res = requests.get(url, cookies=cookies, headers=headers, auth=self.auth, verify=self.verify)
         except requests.exceptions.ConnectionError, emsg:
             raise JSONRequestError('%s' % emsg)
         else:
@@ -67,7 +72,7 @@ class JSONRequest(object):
     def delete(self, url, cookies={}, headers={}):
         headers, cookies = self.__prepare_query__('delete', url, headers, cookies)
         try:
-            res = requests.delete(url, cookies=cookies, headers=headers, verify=self.verify)
+            res = requests.delete(url, cookies=cookies, headers=headers, auth=self.auth, verify=self.verify)
         except requests.exceptions.ConnectionError, emsg:
             raise JSONRequestError('%s' % emsg)
         else:
@@ -76,7 +81,7 @@ class JSONRequest(object):
     def post(self, url, data, cookies={}, headers={}):
         headers, cookies = self.__prepare_query__('post', url, headers, cookies)
         try:
-            res = requests.post(url, data, cookies=cookies, headers=headers, verify=self.verify)
+            res = requests.post(url, data, cookies=cookies, headers=headers, auth=self.auth, verify=self.verify)
         except requests.exceptions.ConnectionError, emsg:
             raise JSONRequestError('%s' % emsg)
         else:
@@ -85,7 +90,7 @@ class JSONRequest(object):
     def put(self, url, data, cookies={}, headers={}):
         headers, cookies = self.__prepare_query__('put', url, headers, cookies)
         try:
-            res = requests.put(url, data, cookies=cookies, headers=headers, verify=self.verify)
+            res = requests.put(url, data, cookies=cookies, headers=headers, auth=self.auth, verify=self.verify)
         except requests.exceptions.ConnectionError, emsg:
             raise JSONRequestError('%s' % emsg)
         else:
