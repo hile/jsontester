@@ -1,3 +1,3 @@
 
-__all__ = ['jsontester','responsecodes']
+__version__ = '1.1.3'
 

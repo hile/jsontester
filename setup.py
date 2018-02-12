@@ -1,12 +1,11 @@
 
 import glob
 from setuptools import setup, find_packages
-
-VERSION='1.1.2'
+from jsontester import __version__
 
 setup(
     name = 'jsontester',
-    version = VERSION,
+    version = __version__,
     license = 'PSF',
     keywords = 'json request test browser',
     url = 'https://github.com/hile/jsontester',
