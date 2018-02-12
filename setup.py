@@ -19,7 +19,7 @@ setup(
         'requests>=1.2.3',
         'nose',
         'configobj',
-        'systematic>=4.0.4',
+        'systematic>=4.5',
     ),
 )
 

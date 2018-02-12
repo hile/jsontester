@@ -126,6 +126,7 @@ class Script(object):
         if debug_flag:
             self.parser.add_argument('--debug', action='store_true', help='Show debug messages')
 
+        self.parser.add_argument('-H', '--headers', action='append', help='Extra headers to send')
         self.parser.add_argument('-u', '--username', help='Basic auth username')
         self.parser.add_argument('-p', '--password', help='Basic auth password')
         self.parser.add_argument('--insecure', action='store_false', help='No HTTPS certificate validation')

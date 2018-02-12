@@ -23,9 +23,11 @@ DEFAULT_HEADERS = {
     'delete': { 'Content-Type': JSON_MIME, },
 }
 
+
 class JSONRequestError(Exception):
     def __str__(self):
         return self.args[0]
+
 
 class JSONRequest(object):
     def __init__(self, browser='chrome', retries=DEFAULT_MAX_RETRIES, username=None, password=None, verify=True):
@@ -57,7 +59,8 @@ class JSONRequest(object):
             return extra_headers, cookies
 
         headers = DEFAULT_HEADERS[name].copy()
-        headers.update(extra_headers)
+        if extra_headers:
+            headers.update(extra_headers)
         return headers, cookies
 
     def get(self, url, cookies={}, headers={}):

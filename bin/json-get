@@ -5,6 +5,7 @@ import json
 from jsontester.shell import Script
 from jsontester.request import JSONRequest, JSONRequestError, response_code_text
 
+
 def print_elements(data, element_paths):
     def iterate_element(entry, parts):
         if not parts:
@@ -25,6 +26,7 @@ def print_elements(data, element_paths):
     for parts in [x.split('.') for x in element_paths]:
         iterate_element(data, parts)
 
+
 script = Script(description='Send a HTTP GET request to given URL as JSON')
 script.add_argument('-r', '--raw', action='store_true', help='No output formatting')
 script.add_argument('-i', '--indent', type=int, default=2, help='Result indent level')
@@ -39,11 +41,16 @@ if args.element:
 else:
     element_paths = None
 
+if args.headers:
+    args.headers = dict([(h.split(':')[0], h.split(':')[1].lstrip()) for h in args.headers])
+else:
+    args.headeres = {}
+
 for url in args.urls:
     script.log.debug('Submitting GET request to %s' % url)
 
     try:
-        res = request.get(url)
+        res = request.get(url, headers=args.headers)
     except JSONRequestError, emsg:
         script.exit(1, emsg)
 
