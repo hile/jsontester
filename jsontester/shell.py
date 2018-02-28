@@ -208,7 +208,7 @@ class Script(object):
 
         class ListCommand(ScriptCommand):
             def run(self, args):
-                print 'Listing stuff'
+                print('Listing stuff')
 
         parser.add_subcommand(ListCommand('list', 'List stuff from script'))
 

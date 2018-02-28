@@ -9,7 +9,7 @@ from jsontester.request import JSONRequest, JSONRequestError, response_code_text
 def print_elements(data, element_paths):
     def iterate_element(entry, parts):
         if not parts:
-            print entry
+            print(entry)
 
         elif isinstance(entry, list):
             for e in entry:
