@@ -189,7 +189,7 @@ class Logger(object):
             logger = self.__get_or_create_logger__(name)
             try:
                 host, path = urllib.splithost(url[url.index(':')+1:])
-            except IndexError, emsg:
+            except IndexError as e:
                 raise LoggerError('Error parsing URL %s: %s' % (url, emsg))
 
             handler = logging.handlers.HTTPHandler(host, url, method)

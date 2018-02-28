@@ -51,8 +51,8 @@ for url in args.urls:
 
     try:
         res = request.get(url, headers=args.headers)
-    except JSONRequestError, emsg:
-        script.exit(1, emsg)
+    except JSONRequestError as e:
+        script.exit(1, e)
 
     res_text = response_code_text(res.status_code)
     if res_text != 'OK':

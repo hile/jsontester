@@ -24,8 +24,8 @@ elif args.data_from:
     script.log.debug('Reading POST data from file')
     try:
         post_data = args.data_from.read()
-    except OSError,(ecode,emsg):
-        script.exit(1,'Error reading POST data from file %s: %s' % (args.data,emsg))
+    except OSError as e:
+        script.exit(1,'Error reading POST data from file %s: %s' % (args.data, e))
 
 else:
     script.exit(1,'Could not parse POST data from anywhere')
@@ -35,8 +35,8 @@ for url in args.urls:
 
     try:
         res = request.post(url,data=post_data)
-    except JSONRequestError,emsg:
-        script.exit(1,emsg)
+    except JSONRequestError as e:
+        script.exit(1, e)
 
     res_text = response_code_text(res.status_code)
     if res_text != 'CREATED':

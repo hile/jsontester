@@ -52,8 +52,8 @@ class JSONRequest(object):
                     host = host.split(':', 1)[0]
                 try:
                     cookies = get_host_cookies(self.browser, host)
-                except CookieError, emsg:
-                    raise JSONRequestError(str(emsg))
+                except CookieError as e:
+                    raise JSONRequestError(str(e))
 
         if name not in DEFAULT_HEADERS:
             return extra_headers, cookies
@@ -67,8 +67,8 @@ class JSONRequest(object):
         headers, cookies = self.__prepare_query__('get', url, headers, cookies)
         try:
             res = requests.get(url, cookies=cookies, headers=headers, auth=self.auth, verify=self.verify)
-        except requests.exceptions.ConnectionError, emsg:
-            raise JSONRequestError('%s' % emsg)
+        except requests.exceptions.ConnectionError as e:
+            raise JSONRequestError('%s' % e)
         else:
             return res
 
@@ -76,8 +76,8 @@ class JSONRequest(object):
         headers, cookies = self.__prepare_query__('delete', url, headers, cookies)
         try:
             res = requests.delete(url, cookies=cookies, headers=headers, auth=self.auth, verify=self.verify)
-        except requests.exceptions.ConnectionError, emsg:
-            raise JSONRequestError('%s' % emsg)
+        except requests.exceptions.ConnectionError as e:
+            raise JSONRequestError('%s' % e)
         else:
             return res
 
@@ -85,8 +85,8 @@ class JSONRequest(object):
         headers, cookies = self.__prepare_query__('post', url, headers, cookies)
         try:
             res = requests.post(url, data, cookies=cookies, headers=headers, auth=self.auth, verify=self.verify)
-        except requests.exceptions.ConnectionError, emsg:
-            raise JSONRequestError('%s' % emsg)
+        except requests.exceptions.ConnectionError as e:
+            raise JSONRequestError('%s' % e)
         else:
             return res
 
@@ -94,7 +94,7 @@ class JSONRequest(object):
         headers, cookies = self.__prepare_query__('put', url, headers, cookies)
         try:
             res = requests.put(url, data, cookies=cookies, headers=headers, auth=self.auth, verify=self.verify)
-        except requests.exceptions.ConnectionError, emsg:
-            raise JSONRequestError('%s' % emsg)
+        except requests.exceptions.ConnectionError as e:
+            raise JSONRequestError('%s' % e)
         else:
             return res

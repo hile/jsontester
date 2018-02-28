@@ -293,14 +293,14 @@ class Script(object):
         try:
             return check_output(args)
 
-        except IOError, (ecode, emsg):
-            raise ScriptError(emsg)
+        except IOError as e:
+            raise ScriptError(e)
 
-        except OSError, (ecode, emsg):
-            raise ScriptError(emsg)
+        except OSError as e:
+            raise ScriptError(e)
 
-        except CalledProcessError, emsg:
-            raise ScriptError(emsg)
+        except CalledProcessError as e:
+            raise ScriptError(e)
 
 
 class ScriptCommand(argparse.ArgumentParser):

@@ -14,8 +14,8 @@ for url in args.urls:
 
     try:
         res = request.delete(url)
-    except JSONRequestError,emsg:
-        script.exit(1,emsg)
+    except JSONRequestError as e:
+        script.exit(1, e)
 
     res_text = response_code_text(res.status_code)
     if res.status_code != 204:
