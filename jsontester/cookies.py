@@ -13,6 +13,10 @@ from .sqlite import SQLiteDatabase
 # ~/Library/Application Support/Firefox/Profiles/toxwdvmv.default/cookies.sqlite
 # ~/.firefox/Profiles/toxwdvmv.default/cookies.sqlite
 
+class CookieError(Exception):
+    pass
+
+
 if sys.platform=='darwin':
     CHROME_CONFIG_DIR = os.path.join(
         os.getenv('HOME'), 'Library', 'Application Support', 'Google', 'Chrome', 'Default'
@@ -26,8 +30,6 @@ elif sys.platform in ['linux2', 'freebsd9']:
 else:
     raise CookieError('Platform not supported for cookie stealing: {0}'.format(sys.platform))
 
-class CookieError(Exception):
-    pass
 
 class BrowserSQLiteCookies(SQLiteDatabase):
     def __init__(self, browser, path):
