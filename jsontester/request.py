@@ -9,8 +9,8 @@ import string
 
 from requests.adapters import HTTPAdapter
 from requests.auth import HTTPBasicAuth
-from responsecodes import response_code_text
 
+from .responsecodes import response_code_text
 from .log import Logger
 from .cookies import get_host_cookies, CookieError
 
