@@ -10,19 +10,19 @@ args = script.parse_args()
 
 ok = True
 for path in args.files:
-    script.log.debug('PROCESSING: %s' % path)
+    script.log.debug('PROCESSING: {0}'.format(path))
     if os.path.isfile(path):
 
         try:
             json.loads(open(path, 'r').read())
-            script.message('OK: %s' % path)
-        except ValueError, emsg:
-            script.message('NOT OK: %s' % path)
-            script.log.debug('%s' % emsg)
+            script.message('OK: {0}'.format(path))
+        except ValueError, e:
+            script.message('NOT OK: {0}'.format(path))
+            script.log.debug('{0}'.format(e)
             ok = False
 
     else:
-        script.message('Missing file: %s' % path)
+        script.message('Missing file: {0}'.format(path))
         ok = False
 
 script.exit(ok)

@@ -19,7 +19,7 @@ def match_record(record,matches):
     return results
 
 for url in args.urls:
-    script.log.debug('Submitting GET request to %s' % url)
+    script.log.debug('Submitting GET request to {0}'.format(url))
 
     try:
         res = request.get(url)
@@ -28,7 +28,7 @@ for url in args.urls:
 
     res_text = response_code_text(res.status_code)
     if res_text != 'OK':
-        script.error('RESPONSE CODE: %s' % res_text)
+        script.error('RESPONSE CODE: {0}'.format(res_text))
         script.error('ERROR requesting JSON resource')
         if args.raw:
             script.error(res.content)
@@ -40,7 +40,7 @@ for url in args.urls:
         continue
 
     if args.debug:
-        script.error('RESPONSE CODE: %s' % res_text)
+        script.error('RESPONSE CODE: {0}'.format(res_text))
 
     if res.content.strip():
         if args.raw:

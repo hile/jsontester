@@ -52,5 +52,5 @@ def response_code_text(value):
             raise ValueError
         return HTTP_RESPONSE_CODES[value]
     except ValueError:
-        raise ValueError('Invalid response code value %s' % value)
+        raise ValueError('Invalid response code value {0}'.format(value))
 

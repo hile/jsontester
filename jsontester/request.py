@@ -68,7 +68,7 @@ class JSONRequest(object):
         try:
             res = requests.get(url, cookies=cookies, headers=headers, auth=self.auth, verify=self.verify)
         except requests.exceptions.ConnectionError as e:
-            raise JSONRequestError('%s' % e)
+            raise JSONRequestError('{0}'.format(e))
         else:
             return res
 
@@ -77,7 +77,7 @@ class JSONRequest(object):
         try:
             res = requests.delete(url, cookies=cookies, headers=headers, auth=self.auth, verify=self.verify)
         except requests.exceptions.ConnectionError as e:
-            raise JSONRequestError('%s' % e)
+            raise JSONRequestError('{0}'.format(e))
         else:
             return res
 
@@ -86,7 +86,7 @@ class JSONRequest(object):
         try:
             res = requests.post(url, data, cookies=cookies, headers=headers, auth=self.auth, verify=self.verify)
         except requests.exceptions.ConnectionError as e:
-            raise JSONRequestError('%s' % e)
+            raise JSONRequestError('{0}'.format(e))
         else:
             return res
 
@@ -95,6 +95,6 @@ class JSONRequest(object):
         try:
             res = requests.put(url, data, cookies=cookies, headers=headers, auth=self.auth, verify=self.verify)
         except requests.exceptions.ConnectionError as e:
-            raise JSONRequestError('%s' % e)
+            raise JSONRequestError('{0}'.format(e))
         else:
             return res

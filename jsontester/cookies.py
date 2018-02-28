@@ -24,7 +24,7 @@ elif sys.platform in ['linux2', 'freebsd9']:
     CHROME_CONFIG_DIR = os.path.expanduser('~/.config/chromium/Default')
     FIREFOX_CONFIG_DIR = os.path.expanduser('~/.mozilla/firefox')
 else:
-    raise CookieError('Platform not supported for cookie stealing: %s' % sys.platform)
+    raise CookieError('Platform not supported for cookie stealing: {0}'.format(sys.platform))
 
 class CookieError(Exception):
     pass
@@ -39,12 +39,12 @@ class FirefoxCookies(BrowserSQLiteCookies):
     def __init__(self, name='firefox', configdir=None):
         self.configdir = configdir and configdir or FIREFOX_CONFIG_DIR
         if self.configdir is None:
-            raise CookieError('Could not find %s configuration directory' % name)
+            raise CookieError('Could not find {0} configuration directory'.format(name))
         if not os.path.isdir(self.configdir):
-            raise CookieError('No such directory: %s' % self.configdir)
+            raise CookieError('No such directory: {0}'.format(self.configdir))
         profile_path = self.get_profile_path()
         if profile_path is None:
-            raise CookieError('Could not find %s profile directory' % name)
+            raise CookieError('Could not find {0} profile directory'.format(name))
         path = os.path.join(self.configdir, profile_path, 'cookies.sqlite')
         BrowserSQLiteCookies.__init__(self, name, path)
 
@@ -67,7 +67,7 @@ class FirefoxCookies(BrowserSQLiteCookies):
             c.execute("""SELECT name, value FROM moz_cookies WHERE host=?""", (host,))
 
         cookies = dict((c[0],c[1]) for c in c.fetchall())
-        self.log.debug('%s cookies for host %s: %s' % (self.name, host, cookies))
+        self.log.debug('{0} cookies for host {1}: {2}'.format(self.name, host, cookies))
         return cookies
 
 
@@ -75,9 +75,9 @@ class ChromeCookies(BrowserSQLiteCookies):
     def __init__(self, name='chrome', configdir=None):
         self.configdir = configdir and configdir or CHROME_CONFIG_DIR
         if self.configdir is None:
-            raise CookieError('Could not find %s configuration directory' % name)
+            raise CookieError('Could not find {0} configuration directory'.format(name))
         if not os.path.isdir(self.configdir):
-            raise CookieError('No such directory: %s' % self.configdir)
+            raise CookieError('No such directory: {0}'.format(self.configdir))
         path = os.path.join(self.configdir, 'Cookies')
         BrowserSQLiteCookies.__init__(self, name, path)
 
@@ -89,7 +89,7 @@ class ChromeCookies(BrowserSQLiteCookies):
             c.execute("""SELECT name, value FROM cookies WHERE host_key=?""", (host,))
 
         cookies = dict((c[0], c[1]) for c in c.fetchall())
-        self.log.debug('%s cookies for host %s: %s' % (self.name, host, cookies))
+        self.log.debug('{0} cookies for host {1}: {2}'.format(self.name, host, cookies))
         return cookies
 
 
@@ -99,6 +99,6 @@ def get_host_cookies(browser, host, name=None):
     elif browser in ['chrome', 'chromium']:
         cookies = ChromeCookies(name=browser)
     else:
-        raise CookieError('Unknown browser: %s' % browser)
+        raise CookieError('Unknown browser: {0}'.format(browser))
     return cookies.lookup(host, name)
 

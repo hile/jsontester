@@ -25,12 +25,12 @@ elif args.data_from:
     try:
         post_data = args.data_from.read()
     except OSError as e:
-        script.exit(1,'Error reading POST data from file %s: %s' % (args.data, e))
+        script.exit(1,'Error reading POST data from file {0}: {1}'.format(args.data, e))
 
 else:
     script.exit(1,'Could not parse POST data from anywhere')
 
-script.log.debug('POST %d bytes:\n%s' % (len(post_data),post_data))
+script.log.debug('POST {0} bytes:\n{1}'.format(len(post_data), post_data))
 for url in args.urls:
 
     try:
@@ -40,7 +40,7 @@ for url in args.urls:
 
     res_text = response_code_text(res.status_code)
     if res_text != 'CREATED':
-        script.error('RESPONSE CODE: %s\n' % res_text)
+        script.error('RESPONSE CODE: {0}\n'.format(res_text))
         script.message('ERROR adding JSON resource')
         if args.raw:
             script.error(res.content)
@@ -51,7 +51,7 @@ for url in args.urls:
                 script.error(res.content)
 
     else:
-        script.error('RESPONSE CODE: %s\n' % res_text)
+        script.error('RESPONSE CODE: {0}\n'.format(res_text))
         if args.raw:
             script.message(res.content)
         else:

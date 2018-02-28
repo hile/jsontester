@@ -99,7 +99,7 @@ class Script(object):
     """
     def __init__(self, name=None, description=None, epilog=None, debug_flag=True):
         self.name = os.path.basename(sys.argv[0])
-        setproctitle('%s %s' % (self.name, ' '.join(sys.argv[1:])))
+        setproctitle('{0} {1}'.format(self.name, ' '.join(sys.argv[1:])))
         signal.signal(signal.SIGINT, self.SIGINT)
 
         reload(sys)
@@ -154,7 +154,7 @@ class Script(object):
             active = filter(lambda t: t.name!='MainThread', threading.enumerate())
             if not len(active):
                 break
-            self.log.debug('Waiting for %d threads' % len(active))
+            self.log.debug('Waiting for {0} threads'.format(len(active)))
             time.sleep(poll_interval)
 
     def exit(self, value=0, message=None):
@@ -192,10 +192,10 @@ class Script(object):
     def message(self, message):
         if self.silent:
             return
-        sys.stdout.write('%s\n' % message)
+        sys.stdout.write('{0}\n'.format(message))
 
     def error(self, message):
-        sys.stderr.write('%s\n' % message)
+        sys.stderr.write('{0}\n'.format(message))
 
     def add_subcommand(self, command):
         """Add a subcommand parser instance
@@ -277,7 +277,7 @@ class Script(object):
             raise ValueError('Execute arguments must be a list')
 
         if dryrun:
-            self.log.debug('would execute: %s' % ' '.join(args))
+            self.log.debug('would execute: {0}'.format(' '.join(args)))
             return 0
 
         p = Popen(args, stdin=sys.stdin, stdout=sys.stdout, stderr=sys.stderr)
@@ -328,4 +328,4 @@ class ScriptCommand(argparse.ArgumentParser):
         Implement your subcommand logic here.
 
         """
-        sys.stderr.write('Subcommand %s has no run method implemented\n' % self.name)
+        sys.stderr.write('Subcommand {0} has no run method implemented\n'.format(self.name))
