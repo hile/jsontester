@@ -24,11 +24,12 @@ if sys.platform=='darwin':
     FIREFOX_CONFIG_DIR = os.path.join(
         os.getenv('HOME'), 'Library', 'Application Support', 'Firefox'
     )
-elif sys.platform in ['linux2', 'freebsd9']:
+elif sys.platform in [ 'linux', 'linux2', 'freebsd9']:
     CHROME_CONFIG_DIR = os.path.expanduser('~/.config/chromium/Default')
     FIREFOX_CONFIG_DIR = os.path.expanduser('~/.mozilla/firefox')
 else:
-    raise CookieError('Platform not supported for cookie stealing: {0}'.format(sys.platform))
+    CHROME_CONFIG_DIR = None
+    FIREFOX_CONFIG_DIR = None
 
 
 class BrowserSQLiteCookies(SQLiteDatabase):
