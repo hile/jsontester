@@ -102,8 +102,9 @@ class Script(object):
         setproctitle('{0} {1}'.format(self.name, ' '.join(sys.argv[1:])))
         signal.signal(signal.SIGINT, self.SIGINT)
 
-        reload(sys)
-        sys.setdefaultencoding('utf-8')
+        if sys.version_info.major < 3:
+            reload(sys)
+            sys.setdefaultencoding('utf-8')
 
         if name is None:
             name = self.name

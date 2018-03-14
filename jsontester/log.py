@@ -75,7 +75,7 @@ class Logger(object):
         if thread_id is not None:
             name = '{0}-{1}'.format(thread_id, name)
 
-        if not Logger.__instances.has_key(name):
+        if name not in Logger.__instances:
             Logger.__instances[name] = Logger.LoggerInstance(name, logformat, timeformat)
 
         self.__dict__['_Logger__instances'] = Logger.__instances
